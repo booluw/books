@@ -50,19 +50,19 @@ Real estates are **hybrids**: APIs for queries and commands that need answers, e
 
 ```mermaid
 flowchart TB
-  subgraph Experience[Experience APIs]
-    E1[Mobile App API]
-    E2[Partner Portal API]
-    E3[AI Agent Tools / MCP]
+  subgraph Experience["Experience APIs"]
+    E1["Mobile App API"]
+    E2["Partner Portal API"]
+    E3["AI Agent Tools / MCP"]
   end
-  subgraph Process[Process APIs]
-    P1[Order Fulfilment API]
-    P2[Customer 360 API]
+  subgraph Process["Process APIs"]
+    P1["Order Fulfilment API"]
+    P2["Customer 360 API"]
   end
-  subgraph System[System APIs]
-    S1[ERP System API]
-    S2[CRM System API]
-    S3[WMS System API]
+  subgraph System["System APIs"]
+    S1["ERP System API"]
+    S2["CRM System API"]
+    S3["WMS System API"]
   end
   E1 --> P1
   E2 --> P1
@@ -249,21 +249,21 @@ Run them continuously, and display them on a dashboard the whole engineering org
 ```mermaid
 flowchart TB
   subgraph Consumers
-    Web[Web / Mobile]
-    Partners[Partners / B2B]
-    Agents[AI agents]
-    SaaS[SaaS apps]
+    Web["Web / Mobile"]
+    Partners["Partners / B2B"]
+    Agents["AI agents"]
+    SaaS["SaaS apps"]
   end
   subgraph Edge
-    GW[API gateway + developer portal]
-    MCPGW[MCP / AI gateway]
-    B2B[B2B gateway: AS2, SFTP, EDI translation]
-    WHK[Webhook ingress]
+    GW["API gateway + developer portal"]
+    MCPGW["MCP / AI gateway"]
+    B2B["B2B gateway: AS2, SFTP, EDI translation"]
+    WHK["Webhook ingress"]
   end
-  subgraph Core[Integration platform]
-    IPaaS[iPaaS flows for SaaS / ERP]
-    SVC[Integration services in code\n+ durable workflows]
-    BROKER{{Event broker / streaming\n+ schema registry}}
+  subgraph Core["Integration platform"]
+    IPaaS["iPaaS flows for SaaS / ERP"]
+    SVC["Integration services in code<br/>+ durable workflows"]
+    BROKER{{Event broker / streaming<br/>+ schema registry}}
     STORE[(Message store / audit)]
   end
   subgraph Systems
@@ -272,10 +272,10 @@ flowchart TB
     WMS[(WMS)]
     DW[(Warehouse / lakehouse)]
   end
-  subgraph CrossCutting[Cross-cutting]
-    IAM[Identity / OAuth / secrets]
-    OBS[Observability: OTel, logs, metrics, traces]
-    CAT[Catalogue: APIs, events, integrations]
+  subgraph CrossCutting["Cross-cutting"]
+    IAM["Identity / OAuth / secrets"]
+    OBS["Observability: OTel, logs, metrics, traces"]
+    CAT["Catalogue: APIs, events, integrations"]
   end
   Web --> GW
   Partners --> GW

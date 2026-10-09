@@ -20,13 +20,13 @@ This chapter is where the title's "Design" earns its place. Many engineers can b
 
 ```mermaid
 flowchart LR
-  A[1. Intake &\nframing] --> B[2. Discovery]
-  B --> C[3. Requirements\n(functional + NFR)]
-  C --> D[4. Options &\ntrade-offs]
-  D --> E[5. Detailed design\n(contracts, mapping,\nerrors, security, ops)]
-  E --> F[6. Review &\napproval]
-  F --> G[7. Build, test,\nrelease]
-  G --> H[8. Operate &\nimprove]
+  A["1. Intake &<br/>framing"] --> B["2. Discovery"]
+  B --> C["3. Requirements<br/>(functional + NFR)"]
+  C --> D["4. Options &<br/>trade-offs"]
+  D --> E["5. Detailed design<br/>(contracts, mapping,<br/>errors, security, ops)"]
+  E --> F["6. Review &<br/>approval"]
+  F --> G["7. Build, test,<br/>release"]
+  G --> H["8. Operate &<br/>improve"]
   H -. feedback .-> B
 ```
 
@@ -168,9 +168,9 @@ Shows the integration's scope: systems, actors and flows, without internals. Eve
 
 ```mermaid
 flowchart LR
-  Sales([Sales rep]) --> SF[Salesforce]
-  SF -- Closed Won event --> INT[Integration\n(iPaaS)]
-  INT -- customer + sales order --> ERP[NetSuite]
+  Sales([Sales rep]) --> SF["Salesforce"]
+  SF -- Closed Won event --> INT["Integration<br/>(iPaaS)"]
+  INT -- customer + sales order --> ERP["NetSuite"]
   ERP -- ERP IDs, order status --> INT --> SF
   Fin([Finance]) --> ERP
   INT -- business errors --> Ops([Sales ops dashboard])

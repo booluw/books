@@ -238,7 +238,7 @@ sequenceDiagram
   Q->>W: Deliver
   W->>W: De-duplicate on event ID
   W->>P: (optional) GET current state of resource
-  W->>W: Process; record event ID as done
+  W->>W: Process, then record event ID as done
 ```
 
 1. **Verify authenticity.** Most providers sign the payload with **HMAC-SHA256** using a shared secret (Stripe's `Stripe-Signature`, GitHub's `X-Hub-Signature-256`, Shopify's `X-Shopify-Hmac-Sha256`). Others use asymmetric signatures, mTLS or OAuth. The **Standard Webhooks** specification (backed by Svix, Zapier, Twilio, ngrok and others) standardises `webhook-id`, `webhook-timestamp` and `webhook-signature` headers. Compute the HMAC over the **raw request body bytes**. Re-serialising parsed JSON changes the bytes and breaks verification. Use a **constant-time comparison**.

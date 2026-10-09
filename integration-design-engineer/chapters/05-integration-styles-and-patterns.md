@@ -19,21 +19,21 @@ Hohpe and Woolf identify four basic ways for applications to share data and func
 
 ```mermaid
 flowchart LR
-  subgraph FT[1. File Transfer]
-    A1[App A] -- writes file --> F[(File / SFTP)]
-    F -- reads file --> B1[App B]
+  subgraph FT["1. File Transfer"]
+    A1["App A"] -- writes file --> F[(File / SFTP)]
+    F -- reads file --> B1["App B"]
   end
-  subgraph SD[2. Shared Database]
-    A2[App A] --> DB[(Shared DB)]
-    B2[App B] --> DB
+  subgraph SD["2. Shared Database"]
+    A2["App A"] --> DB[(Shared DB)]
+    B2["App B"] --> DB
   end
-  subgraph RPC[3. Remote Procedure Invocation]
-    A3[App A] -- request --> B3[App B]
+  subgraph RPC["3. Remote Procedure Invocation"]
+    A3["App A"] -- request --> B3["App B"]
     B3 -- response --> A3
   end
-  subgraph MSG[4. Messaging]
-    A4[App A] -- message --> Q[[Channel]]
-    Q -- message --> B4[App B]
+  subgraph MSG["4. Messaging"]
+    A4["App A"] -- message --> Q[[Channel]]
+    Q -- message --> B4["App B"]
   end
 ```
 
@@ -294,15 +294,15 @@ Integration practice since 2003 has added patterns you will also use. Each is tr
 
 ```mermaid
 flowchart LR
-  WH[Storefront webhook] --> GW[API Gateway] --> IN[Intake: verify, store, publish]
+  WH["Storefront webhook"] --> GW["API Gateway"] --> IN["Intake: verify, store, publish"]
   IN --> T{{orders.placed topic}}
-  T --> ERP[ERP flow: idempotent receiver → translate → retry/circuit breaker] --> ERPAPI[(ERP API)]
+  T --> ERP["ERP flow: idempotent receiver → translate → retry/circuit breaker"] --> ERPAPI[(ERP API)]
   ERP -.after retries.-> DLQ[[DLQ]]
-  T --> FUL[Fulfilment: enrich → split → route] --> W1[WH1 REST]
-  FUL --> W2[WH2 SFTP]
-  FUL --> W3[WH3 EDI 940]
-  W1 & W2 & W3 --> AGG[Aggregator] --> EXC{{fulfilment exceptions}} --> CS[Email CS]
-  T --> CRM[CRM flow: filter → upsert] --> CRMAPI[(CRM API)]
+  T --> FUL["Fulfilment: enrich → split → route"] --> W1["WH1 REST"]
+  FUL --> W2["WH2 SFTP"]
+  FUL --> W3["WH3 EDI 940"]
+  W1 & W2 & W3 --> AGG["Aggregator"] --> EXC{{fulfilment exceptions}} --> CS["Email CS"]
+  T --> CRM["CRM flow: filter → upsert"] --> CRMAPI[(CRM API)]
 ```
 
 Notice how naming the patterns makes the design reviewable. A reviewer can ask "what is the aggregator's completeness condition?" or "what does the idempotent receiver key on?", and those are exactly the questions that prevent incidents.

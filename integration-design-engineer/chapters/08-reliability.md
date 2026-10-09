@@ -193,7 +193,7 @@ When a dependency is failing, continuing to call it wastes resources, adds laten
 ```mermaid
 stateDiagram-v2
   [*] --> Closed
-  Closed --> Open: failure rate ≥ threshold\n(over a sliding window)
+  Closed --> Open: failure rate ≥ threshold over a sliding window
   Open --> HalfOpen: after cool-down period
   HalfOpen --> Closed: trial calls succeed
   HalfOpen --> Open: trial call fails
@@ -263,12 +263,12 @@ COMMIT;
 
 ```mermaid
 flowchart LR
-  APP[Service] -- single DB transaction --> DB[(orders + outbox)]
-  RELAY[Outbox relay\n(polling or CDC)] -- reads unsent rows --> DB
+  APP["Service"] -- single DB transaction --> DB[(orders + outbox)]
+  RELAY["Outbox relay<br/>(polling or CDC)"] -- reads unsent rows --> DB
   RELAY -- publish --> BR{{Broker}}
   RELAY -- mark sent --> DB
-  BR --> C1[Consumer A]
-  BR --> C2[Consumer B]
+  BR --> C1["Consumer A"]
+  BR --> C2["Consumer B"]
 ```
 
 The relay can **poll** the outbox table (simple; `SELECT … FOR UPDATE SKIP LOCKED` lets several relay instances share the work), or use **CDC** (Debezium's outbox event router reads the database log; no polling). The relay publishes at-least-once (it may crash after publishing but before marking sent), so consumers must still be idempotent. A runnable example using SQLite is in [`examples/outbox/`](../examples/outbox/).
