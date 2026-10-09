@@ -1,0 +1,19 @@
+{
+  "id": 77,
+  "created_at": "2026-03-29T00:30:00Z",
+  "currency": "EUR",
+  "subtotal_price": "10.00",
+  "shipping_address": {
+    "address1": "Rue de l'Église Saint-Étienne-du-Mont, Bâtiment B",
+    "city": "Paris",
+    "zip": "75005",
+    "country_code": "fr"
+  },
+  "line_items": [
+    {
+      "sku": "BOOK-9",
+      "quantity": 1,
+      "price": "10"
+    }
+  ]
+}

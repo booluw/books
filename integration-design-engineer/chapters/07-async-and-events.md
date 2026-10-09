@@ -205,7 +205,7 @@ Inside a service, **domain events** can be fine-grained and change freely. Event
 
 ## 7.8 Describing asynchronous APIs: AsyncAPI
 
-**AsyncAPI** is the OpenAPI equivalent for event-driven and message-based APIs. **AsyncAPI 3.0** (December 2023) reorganised the specification around reusable **channels** and **operations** (`send` / `receive`), and fixed the confusing publish/subscribe perspective of 2.x. It describes:
+**AsyncAPI** is the OpenAPI equivalent for event-driven and message-based APIs. **AsyncAPI 3.0** (December 2023) reorganised the specification around reusable **channels** and **operations** (`send` / `receive`), and fixed the confusing publish/subscribe perspective of 2.x. **AsyncAPI 3.1** (early 2026) is a backward-compatible minor release; its main addition is a ROS 2 protocol binding. The specification describes:
 
 - **servers** (brokers, with protocol bindings for Kafka, AMQP, MQTT, WebSockets, HTTP, SNS/SQS and more);
 - **channels** (topics and queues) and their addresses;
@@ -319,7 +319,7 @@ Engines such as **Apache Flink**, **Kafka Streams**, **ksqlDB**, Spark Structure
 - Queues distribute work, topics fan out events, and logs retain and replay streams. Pick the broker by model, volume and environment.
 - Design for **at-least-once delivery with idempotent consumers**; treat "exactly-once" claims carefully.
 - Ordering holds only per key or partition, and even that is fragile. Design consumers to tolerate disorder with versions or fetch-latest.
-- Use CloudEvents for envelopes and AsyncAPI 3 for contracts. Distinguish internal domain events from public integration events.
+- Use CloudEvents for envelopes and AsyncAPI 3.x for contracts. Distinguish internal domain events from public integration events.
 - Consume webhooks by verifying signatures over the raw body, acknowledging fast, de-duplicating, and reconciling periodically. Provide webhooks with signing, retries, replay and SSRF protection.
 
 ## Exercises
@@ -331,5 +331,5 @@ See [`exercises/07-async-and-events.md`](../exercises/07-async-and-events.md).
 - Martin Fowler, "What do you mean by 'Event-Driven'?" (2017).
 - Neha Narkhede, Gwen Shapira, Todd Palino et al., *Kafka: The Definitive Guide*, 2nd edition (O'Reilly, 2021).
 - Adam Bellemare, *Building Event-Driven Microservices*, 2nd edition (O'Reilly, 2025).
-- AsyncAPI 3.0 specification (asyncapi.com); CloudEvents specification (cloudevents.io); Standard Webhooks (standardwebhooks.com).
+- AsyncAPI 3.x specification (asyncapi.com); CloudEvents specification (cloudevents.io); Standard Webhooks (standardwebhooks.com).
 - KIP-932: Queues for Kafka.

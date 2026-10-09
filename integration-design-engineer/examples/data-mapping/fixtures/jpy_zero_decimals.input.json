@@ -1,0 +1,14 @@
+{
+  "id": 1001,
+  "created_at": "2026-10-09T15:30:00Z",
+  "currency": "JPY",
+  "subtotal_price": "4500",
+  "shipping_address": {
+    "address1": "1-2-3 Shibuya",
+    "address2": "Room 405",
+    "city": "Tokyo",
+    "zip": "150-0002",
+    "country_code": "JP"
+  },
+  "line_items": [{"sku": "MUG-1", "quantity": 3, "price": "1500"}]
+}

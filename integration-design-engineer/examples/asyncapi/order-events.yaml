@@ -1,0 +1,105 @@
+asyncapi: 3.1.0
+info:
+  title: Order Events
+  version: 1.2.0
+  description: |
+    Integration events published by the order service (Chapter 7).
+
+    - Envelope: CloudEvents 1.0, Kafka binary content mode (attributes in `ce_*` headers).
+    - Message key: `order_id`, so all events for one order land in one partition, in order.
+    - Delivery: at-least-once. Consumers MUST de-duplicate on `ce_id` and discard events whose
+      `order_version` is lower than the version they have already applied.
+    - Compatibility: BACKWARD_TRANSITIVE in the schema registry; new optional fields may be added.
+  contact:
+    name: Orders domain team
+    email: orders-team@example.com
+defaultContentType: application/json
+servers:
+  production:
+    host: kafka.example.com:9093
+    protocol: kafka-secure
+    description: Production Kafka cluster (mTLS)
+    security:
+      - $ref: '#/components/securitySchemes/mtls'
+channels:
+  orderPlaced:
+    address: sales.order.placed.v1
+    messages:
+      orderPlaced:
+        $ref: '#/components/messages/OrderPlaced'
+  orderShipped:
+    address: sales.order.shipped.v1
+    messages:
+      orderShipped:
+        $ref: '#/components/messages/OrderShipped'
+operations:
+  publishOrderPlaced:
+    action: send
+    channel:
+      $ref: '#/channels/orderPlaced'
+    summary: Published (via the transactional outbox) when an order is paid.
+  publishOrderShipped:
+    action: send
+    channel:
+      $ref: '#/channels/orderShipped'
+    summary: Published when the warehouse confirms shipment.
+components:
+  securitySchemes:
+    mtls:
+      type: X509
+  messageTraits:
+    cloudEventsKafka:
+      headers:
+        type: object
+        required: [ce_specversion, ce_id, ce_source, ce_type]
+        properties:
+          ce_specversion: {type: string, const: '1.0'}
+          ce_id: {type: string, description: Unique event id. Use for de-duplication.}
+          ce_source: {type: string, examples: ['https://orders.example.com']}
+          ce_type: {type: string}
+          ce_time: {type: string, format: date-time}
+          ce_subject: {type: string, description: 'orders/{order_id}'}
+          traceparent: {type: string, description: W3C Trace Context}
+      bindings:
+        kafka:
+          key:
+            type: string
+            description: order_id
+  messages:
+    OrderPlaced:
+      name: OrderPlaced
+      title: Order placed
+      traits:
+        - $ref: '#/components/messageTraits/cloudEventsKafka'
+      payload:
+        type: object
+        required: [order_id, order_version, customer_id, currency, total, lines, placed_at]
+        properties:
+          order_id: {type: string}
+          order_version: {type: integer, minimum: 1}
+          customer_id: {type: string}
+          currency: {type: string, pattern: '^[A-Z]{3}$'}
+          total: {type: string, description: Decimal string}
+          placed_at: {type: string, format: date-time}
+          lines:
+            type: array
+            items:
+              type: object
+              required: [sku, quantity]
+              properties:
+                sku: {type: string}
+                quantity: {type: integer, minimum: 1}
+    OrderShipped:
+      name: OrderShipped
+      title: Order shipped
+      traits:
+        - $ref: '#/components/messageTraits/cloudEventsKafka'
+      payload:
+        type: object
+        required: [order_id, order_version, carrier, tracking_number, shipped_at]
+        properties:
+          order_id: {type: string}
+          order_version: {type: integer}
+          carrier: {type: string}
+          tracking_number: {type: string}
+          shipped_at: {type: string, format: date-time}

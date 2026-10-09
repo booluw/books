@@ -1,0 +1,21 @@
+{
+  "externalId": "SHOP-77",
+  "tranDate": "2026-03-28",
+  "currency": "EUR",
+  "subtotal": "10.00",
+  "shipMethod": "SHIP-STD",
+  "shipAddress": {
+    "addr1": "Rue de l'Église Saint-Étienne-du-Mont, B",
+    "city": "Paris",
+    "zip": "75005",
+    "country": "FR"
+  },
+  "items": [
+    {
+      "item": "BOOK-9",
+      "quantity": 1,
+      "rate": "10.00",
+      "amount": "10.00"
+    }
+  ]
+}

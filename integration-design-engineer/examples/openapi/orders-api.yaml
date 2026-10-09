@@ -1,0 +1,373 @@
+openapi: 3.1.0
+info:
+  title: Orders API
+  version: 1.4.0
+  summary: Create and track customer orders.
+  description: |
+    Example integration-grade API from *The Integration Design Engineer*, Chapter 6.
+
+    Conventions:
+    - Money is a decimal **string** plus an ISO 4217 currency code.
+    - Timestamps are RFC 3339 in UTC.
+    - Collections use cursor pagination (`limit`, `cursor`, `next_cursor`).
+    - Errors use RFC 9457 Problem Details (`application/problem+json`).
+    - `POST` requires an `Idempotency-Key`; retries with the same key and body replay the original response.
+    - Incremental sync: `GET /orders?updated_since=…&sort=updated_at` returns changes ordered by `(updated_at, id)`;
+      deletions are exposed as tombstones via `GET /order-deletions`.
+  contact:
+    name: Integration team
+    email: integrations@example.com
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: https://api.example.com/v1
+    description: Production
+  - url: https://sandbox.api.example.com/v1
+    description: Sandbox (test data, lower rate limits)
+security:
+  - oauth2: [orders.read]
+tags:
+  - name: Orders
+    description: Create, read, update and cancel orders.
+  - name: Sync
+    description: Operations designed for incremental synchronisation by integrations.
+paths:
+  /orders:
+    get:
+      tags: [Orders, Sync]
+      operationId: listOrders
+      summary: List orders, optionally only those changed since a point in time.
+      description: |
+        Use `updated_since` with `sort=updated_at` for incremental sync. Overlap your window by a few
+        minutes and de-duplicate on `id` + `version` to tolerate clock skew and late commits.
+      security:
+        - oauth2: [orders.read]
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - name: updated_since
+          in: query
+          description: Only return orders whose `updated_at` is at or after this instant (inclusive).
+          schema: {type: string, format: date-time}
+        - name: status
+          in: query
+          schema: {$ref: '#/components/schemas/OrderStatus'}
+        - name: sort
+          in: query
+          schema: {type: string, enum: [updated_at, -created_at], default: -created_at}
+      responses:
+        '200':
+          description: A page of orders.
+          headers:
+            RateLimit: {$ref: '#/components/headers/RateLimit'}
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: {$ref: '#/components/schemas/Order'}
+                  next_cursor:
+                    type: [string, 'null']
+                    description: Pass as `cursor` to get the next page. Null when there are no more results.
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+        '429': {$ref: '#/components/responses/TooManyRequests'}
+    post:
+      tags: [Orders]
+      operationId: createOrder
+      summary: Create an order.
+      description: Idempotent when retried with the same `Idempotency-Key` and the same body.
+      security:
+        - oauth2: [orders.write]
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/OrderCreate'}
+            examples:
+              simple:
+                value:
+                  external_id: SHOP-820982911946154508
+                  customer_id: cus_8f3k2
+                  currency: USD
+                  lines:
+                    - {sku: TSHIRT-M, quantity: 2, unit_price: '19.99'}
+      responses:
+        '201':
+          description: Created.
+          headers:
+            Location:
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '409':
+          description: A request with this idempotency key is still in progress, or `external_id` already exists.
+          content:
+            application/problem+json:
+              schema: {$ref: '#/components/schemas/Problem'}
+        '422': {$ref: '#/components/responses/ValidationProblem'}
+        '429': {$ref: '#/components/responses/TooManyRequests'}
+        '503': {$ref: '#/components/responses/TooManyRequests'}
+  /orders/{order_id}:
+    parameters:
+      - name: order_id
+        in: path
+        required: true
+        schema: {type: string, pattern: '^ord_[a-z0-9]{10}$'}
+    get:
+      tags: [Orders]
+      operationId: getOrder
+      summary: Get one order.
+      responses:
+        '200':
+          description: The order.
+          headers:
+            ETag:
+              description: Version tag; send it in `If-Match` when updating.
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '404': {$ref: '#/components/responses/Problem'}
+    patch:
+      tags: [Orders]
+      operationId: updateOrder
+      summary: Update shipping details (JSON Merge Patch). Requires `If-Match`.
+      security:
+        - oauth2: [orders.write]
+      parameters:
+        - name: If-Match
+          in: header
+          required: true
+          schema: {type: string}
+      requestBody:
+        required: true
+        content:
+          application/merge-patch+json:
+            schema:
+              type: object
+              properties:
+                shipping_address: {$ref: '#/components/schemas/Address'}
+      responses:
+        '200':
+          description: Updated.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '412':
+          description: The order changed since you read it. Re-read, re-apply and retry.
+          content:
+            application/problem+json:
+              schema: {$ref: '#/components/schemas/Problem'}
+  /orders/{order_id}/cancellations:
+    post:
+      tags: [Orders]
+      operationId: cancelOrder
+      summary: Cancel an order that has not shipped. Modelled as a resource so it has an id and status.
+      security:
+        - oauth2: [orders.write]
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema: {type: string}
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason: {type: string, enum: [customer_request, fraud, out_of_stock, other]}
+      responses:
+        '201':
+          description: Cancellation accepted.
+        '409':
+          description: Order already shipped; cannot be cancelled.
+          content:
+            application/problem+json:
+              schema: {$ref: '#/components/schemas/Problem'}
+  /order-deletions:
+    get:
+      tags: [Sync]
+      operationId: listOrderDeletions
+      summary: Tombstones for deleted orders, so incremental sync can see deletes.
+      parameters:
+        - name: since
+          in: query
+          required: true
+          schema: {type: string, format: date-time}
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: Deleted order ids.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: {type: string}
+                        deleted_at: {type: string, format: date-time}
+                  next_cursor: {type: [string, 'null']}
+        '400': {$ref: '#/components/responses/Problem'}
+        '429': {$ref: '#/components/responses/TooManyRequests'}
+webhooks:
+  orderShipped:
+    post:
+      operationId: orderShippedWebhook
+      summary: Sent when an order ships. Signed with HMAC-SHA256 (Standard Webhooks headers).
+      parameters:
+        - {name: webhook-id, in: header, required: true, schema: {type: string}}
+        - {name: webhook-timestamp, in: header, required: true, schema: {type: string}}
+        - {name: webhook-signature, in: header, required: true, schema: {type: string}}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, data]
+              properties:
+                type: {const: order.shipped}
+                data:
+                  type: object
+                  properties:
+                    order_id: {type: string}
+                    version: {type: integer}
+                    tracking_number: {type: string}
+      responses:
+        '2XX':
+          description: Acknowledge quickly; any non-2xx response is retried with backoff for up to 3 days.
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.example.com/oauth2/token
+          scopes:
+            orders.read: Read orders
+            orders.write: Create and modify orders
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema: {type: integer, minimum: 1, maximum: 200, default: 50}
+    Cursor:
+      name: cursor
+      in: query
+      description: Opaque cursor from a previous response's `next_cursor`.
+      schema: {type: string}
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: Unique per logical operation (e.g. a UUID). Keys are retained for 24 hours.
+      schema: {type: string, maxLength: 255}
+  headers:
+    RateLimit:
+      description: Remaining quota, per the IETF RateLimit header fields draft.
+      schema: {type: string}
+  responses:
+    Problem:
+      description: Error (RFC 9457).
+      content:
+        application/problem+json:
+          schema: {$ref: '#/components/schemas/Problem'}
+    ValidationProblem:
+      description: Validation failed. Do not retry unchanged.
+      content:
+        application/problem+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Problem'
+              - type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pointer: {type: string, description: JSON Pointer to the invalid field}
+                        detail: {type: string}
+    TooManyRequests:
+      description: Rate limited or temporarily unavailable. Retry after `Retry-After` seconds.
+      headers:
+        Retry-After:
+          schema: {type: integer}
+      content:
+        application/problem+json:
+          schema: {$ref: '#/components/schemas/Problem'}
+  schemas:
+    Money:
+      type: string
+      pattern: '^-?[0-9]+(\.[0-9]{1,3})?$'
+      description: Decimal amount as a string, in the currency's major unit.
+    OrderStatus:
+      type: string
+      description: Consumers must tolerate values added in future versions.
+      enum: [pending, paid, fulfilled, shipped, cancelled]
+    Address:
+      type: object
+      required: [line1, city, country]
+      properties:
+        line1: {type: string, maxLength: 100}
+        line2: {type: string, maxLength: 100}
+        city: {type: string}
+        region: {type: string, description: 'ISO 3166-2 subdivision code, for example US-CA'}
+        postal_code: {type: string}
+        country: {type: string, pattern: '^[A-Z]{2}$', description: ISO 3166-1 alpha-2}
+    OrderLine:
+      type: object
+      required: [sku, quantity, unit_price]
+      properties:
+        sku: {type: string}
+        quantity: {type: integer, minimum: 1}
+        unit_price: {$ref: '#/components/schemas/Money'}
+    OrderCreate:
+      type: object
+      required: [customer_id, currency, lines]
+      properties:
+        external_id:
+          type: string
+          description: Caller's own id for this order. Unique per client; enables upsert-style de-duplication.
+        customer_id: {type: string}
+        currency: {type: string, pattern: '^[A-Z]{3}$'}
+        shipping_address: {$ref: '#/components/schemas/Address'}
+        lines:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/OrderLine'}
+    Order:
+      allOf:
+        - $ref: '#/components/schemas/OrderCreate'
+        - type: object
+          required: [id, status, version, created_at, updated_at, total]
+          properties:
+            id: {type: string, examples: [ord_7c9e667942]}
+            status: {$ref: '#/components/schemas/OrderStatus'}
+            version: {type: integer, description: Increments on every change; use it to discard stale events.}
+            total: {$ref: '#/components/schemas/Money'}
+            created_at: {type: string, format: date-time}
+            updated_at: {type: string, format: date-time}
+    Problem:
+      type: object
+      properties:
+        type: {type: string, format: uri-reference}
+        title: {type: string}
+        status: {type: integer}
+        detail: {type: string}
+        instance: {type: string}
+        trace_id: {type: string}
