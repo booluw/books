@@ -1,0 +1,17 @@
+{
+  "externalId": "SHOP-820982911946154508",
+  "tranDate": "2026-10-09",
+  "currency": "USD",
+  "subtotal": "59.97",
+  "shipMethod": "SHIP-EXP",
+  "shipAddress": {
+    "addr1": "123 Market St",
+    "city": "San Francisco",
+    "zip": "94103",
+    "country": "US"
+  },
+  "items": [
+    {"item": "TSHIRT-M", "quantity": 2, "rate": "19.99", "amount": "39.98"},
+    {"item": "CAP-01", "quantity": 1, "rate": "19.99", "amount": "19.99"}
+  ]
+}

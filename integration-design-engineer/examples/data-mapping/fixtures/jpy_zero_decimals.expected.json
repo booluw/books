@@ -1,0 +1,15 @@
+{
+  "externalId": "SHOP-1001",
+  "tranDate": "2026-10-09",
+  "currency": "JPY",
+  "subtotal": "4500",
+  "shipMethod": "SHIP-STD",
+  "shipAddress": {
+    "addr1": "1-2-3 Shibuya",
+    "addr2": "Room 405",
+    "city": "Tokyo",
+    "zip": "150-0002",
+    "country": "JP"
+  },
+  "items": [{"item": "MUG-1", "quantity": 3, "rate": "1500", "amount": "4500"}]
+}
