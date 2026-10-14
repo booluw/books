@@ -1,0 +1,6 @@
+domain,name,industry,employees,country,tech,open_ops_roles
+acme-logistics.com,Acme Logistics,Third-Party Logistics,640,US,LegacyTMS;Salesforce,3
+northpeak-freight.ca,Northpeak Freight,Freight Forwarding,150,CA,ModernTMS,0
+bigbox-retail.com,BigBox Retail,Retail,12000,US,SAP,5
+tinyhaul.io,TinyHaul,Third-Party Logistics,,US,,1
+rivalroute.com,RivalRoute,Software,300,US,,0

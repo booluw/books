@@ -111,7 +111,7 @@ Always measure conversion by **cohort** (all leads created in March) rather than
 
 ### Worked example
 
-A company targets $3M new ARR this year. Average ACV is $30k, so it needs 100 new customers. The opportunity win rate is 25%, so it needs 400 opportunities. Meetings convert to opportunities at 50%, so it needs 800 qualified meetings, about 67 a month. If outbound plays convert positive replies to meetings at 50% and positive replies are 1% of delivered emails, outbound alone would need about 13,400 delivered emails a month for those meetings. Doubling relevance (a 2% positive reply rate) halves the required volume, and with it the deliverability risk. This kind of **reverse funnel** calculation is how GTM engineers size plays. A calculator is in [`examples/funnel-metrics/`](../examples/funnel-metrics/).
+A company targets $3M new ARR this year. Average ACV is $30k, so it needs 100 new customers. The opportunity win rate is 25%, so it needs 400 opportunities. Meetings convert to opportunities at 50%, so it needs 800 qualified meetings, about 67 a month. If outbound plays convert positive replies to meetings at 50% and positive replies are 1% of delivered emails, outbound alone would need about 13,300 delivered emails a month (160,000 a year) for those meetings. Doubling relevance (a 2% positive reply rate) halves the required volume, and with it the deliverability risk. This kind of **reverse funnel** calculation is how GTM engineers size plays. A calculator is in [`examples/funnel-metrics/`](../examples/funnel-metrics/).
 
 ---
 
