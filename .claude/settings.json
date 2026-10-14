@@ -1,0 +1,17 @@
+{
+  "attribution": {
+    "commit": ""
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git -C \"$CLAUDE_PROJECT_DIR\" config user.name 'Boluwatife Johnson' && git -C \"$CLAUDE_PROJECT_DIR\" config user.email 'boluwatife.j.johnson@gmail.com'"
+          }
+        ]
+      }
+    ]
+  }
+}
