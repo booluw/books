@@ -57,7 +57,7 @@ In 2025, MIT's NANDA initiative published *The GenAI Divide: State of AI in Busi
 
 - **Postings:** CNBC, citing labour-market analytics firm Lightcast, reported US FDE postings rising from fewer than 200 in 2023 to about 1,200 in 2025, and to more than 7,300 in the first nine months of 2026, with consultancies (Deloitte, Accenture, KPMG) and Google among the biggest posters. Indeed data reported by Business Insider showed FDE postings in April 2026 up roughly 7× on a year earlier.
 - **Programmes:** OpenAI launched the OpenAI Deployment Company in May 2026, a majority-owned subsidiary built around embedded engineers, seeded by acquiring the AI consultancy Tomoro (reported at roughly 150 FDEs and deployment specialists). AWS announced a $1 billion forward deployed engineering unit in June 2026, with pods of five or six engineers working with customers for roughly 45-day engagements. Anthropic announced the $100 million Claude Frontier Academy in October 2026, to train 10,000 "frontier deployed engineers" at partner and customer organisations by the end of 2027.
-- **Pay:** median advertised US salaries for FDE roles were reported around $190,000–$200,000 in 2026 (Chapter 19 has detail and caveats).
+- **Pay:** median advertised US salaries for FDE roles were reported around $190,000–$200,000 in 2026 by job-posting aggregators (Chapter 19 has detail and caveats).
 
 Some of the growth is relabelling: roles that used to be called "solutions engineer" or "implementation engineer" acquired the fashionable title. §1.6 shows how to tell the difference.
 

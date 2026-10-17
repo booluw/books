@@ -170,7 +170,7 @@ See [`exercises/09-toolkit.md`](../exercises/09-toolkit.md).
 
 ## Further reading
 
-- Martin Kleppmann, *Designing Data-Intensive Applications* (2017; 2nd edition in preparation).
+- Martin Kleppmann, *Designing Data-Intensive Applications* (2017; 2nd edition with Chris Riccomini, O'Reilly, March 2026).
 - Michael Feathers, *Working Effectively with Legacy Code* (2004).
 - Chip Huyen, *AI Engineering* (2025).
 - Model Context Protocol documentation (modelcontextprotocol.io).

@@ -83,7 +83,7 @@ Every source cited in the chapters' "Further reading" sections and in the text, 
 
 ## B.4 Data and engineering craft
 
-- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017; 2nd edition with Chris Riccomini). ([Ch. 9](../chapters/09-toolkit.md))
+- Martin Kleppmann, *Designing Data-Intensive Applications* (O'Reilly, 2017; 2nd edition with Chris Riccomini, March 2026). ([Ch. 9](../chapters/09-toolkit.md))
 - Michael Feathers, *Working Effectively with Legacy Code* (Prentice Hall, 2004). ([Ch. 9](../chapters/09-toolkit.md))
 - Joe Reis and Matt Housley, *Fundamentals of Data Engineering* (O'Reilly, 2022). ([Ch. 10](../chapters/10-enterprise-data.md))
 - Peter Christen, *Data Matching* (Springer, 2012). ([Ch. 10](../chapters/10-enterprise-data.md))
