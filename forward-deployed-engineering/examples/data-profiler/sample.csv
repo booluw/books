@@ -1,0 +1,21 @@
+claim_id,policy_number,customer_name,postcode,claim_date,amount_gbp,status,adjuster_email
+CLM-1001,POL-482913,Northwind Traders,SW1A 1AA,2026-03-02,1250.00,Open,a.khan@contoso.example
+CLM-1002,POL-482914,Fabrikam Ltd,EC1A 1BB,2026-03-04,980.50,open,b.lee@contoso.example
+CLM-1003,POL-482915,Tailspin Toys,M1 1AE,2026-03-05,15000,Closed,a.khan@contoso.example
+CLM-1004,POL-48291,Adventure Works,,2026-03-07,430.00,Closed,c.okafor@contoso.example
+CLM-1005,POL-482917,Wide World Importers,B1 1AA,07/03/2026,2200.00,Open,b.lee@contoso.example
+CLM-1006,POL-482918,Litware Inc,LS1 1UR,2026-03-09,£1,200.00,Pending,N/A
+CLM-1007,POL-482919,Woodgrove Bank,G1 1XQ,0000-00-00,760.00,Open,c.okafor@contoso.example
+CLM-1008,N/A,unknown,unknown,2026-03-11,0,Open,a.khan@contoso.example
+CLM-1009,POL-482921,Northwind Traders ,SW1A 1AA,2026-03-12,310.25,Closed,b.lee@contoso.example
+CLM-1003,POL-482915,Tailspin Toys,M1 1AE,2026-03-05,15000,Closed,a.khan@contoso.example
+CLM-1010,POL-482922,Fabrikam Ltd,EC1A 1BB,2026-03-14,640.00,CLOSED,
+CLM-1011,POL-482923,Contoso Pharmaceuticals,CB2 1TN,2026-03-15,99999999,Open,c.okafor@contoso.example
+CLM-1012,POL-482924,Adventure Works,BS1 4DJ,2026-03-16,,Open,a.khan@contoso.example
+clm-1013,POL-482925,Tailspin Toys,M1 1AE,2026-03-17,1875.00,Open,b.lee@contoso.example
+CLM-1014,POL-482926,Wide World Importers,B1 1AA,2026-03-18,420.00,Closed,TBC
+CLM-1015,POL-482927,Litware Inc,LS1 1UR,yesterday,505.00,Open,c.okafor@contoso.example
+CLM-1016,POL-482928,Woodgrove Bank,G1 1XQ,2026-03-20,3300.00,Open,a.khan@contoso.example
+CLM-1017,POL-482929,Northwind Traders,SW1A 1AA,2026-03-21,-150.00,Closed,b.lee@contoso.example
+CLM-1018,POL-482930,Fabrikam Ltd,EC1A 1BB,2026-03-22,875.00,Open,c.okafor@contoso.example
+CLM-1019,POL-482931,Tailspin Toys,M1 1AE,2026-03-23,1100.00,Open,a.khan@contoso.example

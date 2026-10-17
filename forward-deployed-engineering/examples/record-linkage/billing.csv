@@ -1,0 +1,11 @@
+id,name,postcode,email,phone
+B1,CONTOSO LIMITED,SW1A1AA,Accounts@Contoso.example,02079460001
+B2,Fabrikam Inc,EC1A 1BB,,+442079460002
+B3,Northwind Traders,M1 1AE,finance@northwind.example,
+B4,Tailspin Toy Co,B1 1AA,accounts@tailspintoys.example,0121 496 0004
+B5,Wide World Importers,LS1 1UR,ap@wideworldimporters.example,0113 496 0005
+B6,Woodgrove Bank (Scotland),G2 1AB,scotland@woodgrovebank.example,0141 496 0099
+B7,Adventure Works,BS1 4DJ,ar@adventure-works.example,
+B8,Contoso Pharma,CB2 1TN,ap@contosopharma.example,
+B9,Litwear Ltd,CB2 1TN,,
+B10,Fourth Coffee,SW1A 1AA,orders@fourthcoffee.example,020 7946 0010

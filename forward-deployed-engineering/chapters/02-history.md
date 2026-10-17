@@ -75,7 +75,7 @@ The MIT NANDA *GenAI Divide* report (2025) put a sharp number on the gap: 95% of
 - **AWS (June 2026).** Amazon Web Services announced a $1 billion forward deployed engineering unit, starting with hundreds of engineers working in pods of five or six with customers for roughly 45-day engagements, with early customers including the NBA, the NFL, Southwest Airlines and Cox Automotive.
 - **Anthropic (October 2026).** Anthropic announced the **Claude Frontier Academy**, a $100 million programme to train 10,000 "frontier deployed engineers" at companies in its partner network (consultancies, banks and enterprises) by the end of 2027. The programme has an in-person phase with a graded simulated deployment, then a 12-week residency leading a real use case, with the first credentials expected in early 2027. Unlike OpenAI's and AWS's in-house approach, Anthropic chose to train engineers who stay at partner and customer organisations. Commentators noted that it is a vendor-specific credential.
 - **Consultancies.** Lightcast data cited by CNBC showed Deloitte, Accenture and KPMG among the largest posters of FDE jobs in 2026, reflecting systems integrators repositioning their AI practices around the term.
-- **Relabelling.** Much of the posting growth was existing roles renamed. Chapter 1 §1.5 gives tests to tell real FDE roles from relabelled ones.
+- **Relabelling.** Much of the posting growth was existing roles renamed. Chapter 1 §1.6 gives tests to tell real FDE roles from relabelled ones.
 
 ```mermaid
 timeline
