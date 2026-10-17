@@ -86,11 +86,11 @@ Try each question before reading the solution. Exercise types: **concept**, **sc
    >
    > **Frequency and impact:** About 250 complaints a week need this (*assumption*). Compliance has said the screenshot process will fail its next audit.
    >
-   > **Other instances:** Related to the audit-log need (FR-003, FR-006, FR-009, FR-013): a fixed record of an answer is a likely view on the same data. Possibly the fifth customer with this underlying need.
+   > **Other instances:** Closely related to the audit-log need that Woodgrove itself raised in July (FR-003) and that three other customers share (FR-006, FR-009, FR-013): a fixed record of an answer is probably a view on the same data, so this strengthens an existing rule-of-three item rather than starting a new one.
    >
    > **Ask:** A product decision on how users export a tamper-evident record of an answer, by 15 November, because the renewal decision is due in December.
 
-   Note what changed: "PDF button" became the underlying need (a fixed, evidential record), which the product team may meet better another way; "won't sign" became specific revenue and dates; the link to the audit-log cluster makes it far more persuasive.
+   Note what changed: "PDF button" became the underlying need (a fixed, evidential record), which the product team may meet better another way; "won't sign" became specific revenue and dates; linking it to the four-customer audit-log cluster makes it far more persuasive than a one-customer request.
 
 4. - **A: productise now.** Four customers, the most ARR, regulatory pressure, and workarounds of varying quality (a risk in itself, since a weak audit trail is worse than none if relied on).
    - **D: productise now, despite one customer.** §16.4 notes that the first bank needing a compliance feature often means every bank will; here three more banks are in the pipeline, it is the largest ARR and it saves four weeks per deployment. Build it with the FDE who has done the first one.
