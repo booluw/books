@@ -133,6 +133,19 @@ flowchart LR
 
 The weighted approach is a simplified form of the **Fellegi–Sunter model** (1969), the classical statistical foundation of record linkage. [`examples/record-linkage/`](../examples/record-linkage/) implements the full pipeline with evaluation.
 
+### Worked example
+
+The example's sample data has 9 customer records in a CRM and 10 in a billing system: 90 possible pairs. Blocking on normalised name prefixes leaves 14 pairs to score. With a match threshold of 0.88 and a review band of 0.70–0.88:
+
+| CRM name | Billing name | Score | Decision |
+|---|---|---|---|
+| Contoso Ltd | CONTOSO LIMITED | 1.000 | match (suffixes normalised away) |
+| Litware Inc | Litwear Ltd | 0.970 | match (typo tolerated by Jaro–Winkler) |
+| Contoso Pharmaceuticals | Contoso Pharma | 0.959 | match |
+| Tailspin Toys | Tailspin Toy Co | 0.793 | review |
+
+Automatic matches alone give precision 1.00 and recall 0.88 (7 of 8 true pairs found). Sending the one uncertain pair to a human brings both to 1.00. That is the usual shape of a good linkage design: automate the confident cases, route the uncertain band to people, and measure both.
+
 ### Golden records
 
 The output of entity resolution is often a **golden record** (or **master record**): a single, best version of each entity, assembled from the matched records with rules about which source wins for each field ("take the address from billing, the email from the CRM"). Building and maintaining golden records across an enterprise is the discipline of **master data management (MDM)**. If the customer already has an MDM system, use it rather than building a competing one.

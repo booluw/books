@@ -98,6 +98,22 @@ flowchart LR
   Inv --> C
 ```
 
+Here is what a regression looks like in practice, using the 12-case sample in [`examples/llm-eval-harness/`](../examples/llm-eval-harness/). Version 2 of a prompt fixed a classification case but broke two coverage answers:
+
+```
+slice                    v1         v2   delta
+all                     92%        83%     -8%  <-- REGRESSION
+classification          75%       100%    +25%
+coverage-qa            100%        50%    -50%  <-- REGRESSION
+high-risk              100%        75%    -25%  <-- REGRESSION
+
+Newly failing: qa-01, qa-03
+  qa-01: citations: cites ['HC-200-s12'] not in ['HC-200-s4', 'HC-200-s7']
+  qa-03: citations: 0 citation(s), need 1
+```
+
+The headline improvement on classification would have hidden a serious problem: one answer now cites a policy section that wasn't retrieved, and another cites nothing. Slicing by tag, and treating any drop on `high-risk` cases as a regression, catches it.
+
 - **Gate releases** on agreed thresholds: overall pass rate, and no critical slice regressing by more than a set margin.
 - **Read the failures,** not just the score. Ten minutes reading failed cases teaches more than any dashboard.
 - **Track over time:** a chart of pass rate per slice across versions is a powerful artefact for both the customer and the handover team.

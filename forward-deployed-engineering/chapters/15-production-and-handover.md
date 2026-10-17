@@ -45,6 +45,22 @@ Run it as a checklist with evidence, not a meeting of opinions:
 
 [`examples/readiness-gate/`](../examples/readiness-gate/) implements this logic: it reads a checklist and evidence from JSON and returns GO, GO WITH CONDITIONS or NO-GO with reasons, including numeric checks such as minimum evaluation pass rate and maximum p95 latency. The full checklist is in Appendix C.
 
+Running the example's sample checklist for a claims assistant produces:
+
+```
+Contoso Insurance claims coverage assistant: GO WITH CONDITIONS
+10 of 13 items satisfied
+Conditions (must be closed by the due date):
+  - DR-1 Backups restored and disaster recovery tested
+      owner: Contoso platform team; due 2026-11-30
+  - HAND-1 Handover pack accepted by the customer's support team
+      owner: Contoso claims IT; due 2026-12-15
+Minor items open:
+  . TRAIN-1 Adjuster training materials published
+```
+
+Every condition has a named owner and a date. A major item without both would turn the result into NO-GO, because a condition nobody owns will not be closed.
+
 ### Service level objectives
 
 Agree measurable reliability targets before launch:

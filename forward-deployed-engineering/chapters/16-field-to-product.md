@@ -63,6 +63,20 @@ A widely used heuristic: **build it custom the first time; notice it the second 
 
 Why three? One instance is an anecdote. Two may be coincidence, and you can't yet tell which parts are general and which are specific. With three, you can see the common core and the variations, which is exactly what a good product design needs.
 
+### Worked example
+
+The sample in [`examples/feedback-tracker/`](../examples/feedback-tracker/) holds 14 field reports from 8 customers. Clustering by normalised tags reduces them to 5 underlying needs:
+
+| Need | Distinct customers | ARR affected | Recommendation |
+|---|---|---|---|
+| Audit log of AI answers | 4 | £2,580,000 | Productise |
+| Single sign-on | 4 | £2,430,000 | Productise |
+| Export | 3 | £590,000 | Productise |
+| SharePoint permissions | 2 | £550,000 | Watch |
+| Welsh-language answers | 1 | £600,000 | Field solution |
+
+Two lessons are visible in the table. First, the reports used different words for the same need ("compliance archive", "audit trail"); without clustering, each looked like a one-off. Second, the Welsh-language need affects one customer but £600,000 of ARR, more than the export need. The rule of three says "not yet", but a product leader might reasonably decide otherwise (see below).
+
 ### Beyond counting
 
 The rule of three is a trigger for consideration, not an automatic decision. Weigh:

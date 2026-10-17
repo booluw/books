@@ -55,6 +55,8 @@ Now suppose that because the deployment works, the customer expands to $1.5M ACV
 
 *(Illustrative numbers.)* Three-year gross margin ≈ 65% ($2.98M gross profit on $4.6M revenue). And if the customer would not have bought at all without the FDE-led deployment, the comparison is with **zero** revenue. An impact calculator that models scenarios like this is in [`examples/impact-calculator/`](../examples/impact-calculator/).
 
+Another way to see the same deal: FDE cost as a share of revenue falls from 58.3% in year 1 to 11.7% in year 2 and 7.0% in year 3. That falling ratio is the signature of a healthy forward deployed account (§3.2, "Unit economics leaders track").
+
 The model only works if (a) customers expand substantially, (b) FDE effort per customer falls over time, and (c) what FDEs build becomes reusable product for the next customer. When any of those fail, the business becomes a low-margin consultancy.
 
 ### Unit economics leaders track
