@@ -31,3 +31,4 @@ Not every book needs every folder. A book adds folders when its subject needs th
 |---|---|---|
 | *The Integration Design Engineer: A Field Guide to Connecting Systems* | [`integration-design-engineer/`](integration-design-engineer/) | First edition, October 2026 |
 | *GTM Engineering: Building the Systems That Create Revenue* | [`gtm-engineering/`](gtm-engineering/) | First edition, October 2026 |
+| *Forward Deployed Engineering: Shipping Software Inside the Customer* | [`forward-deployed-engineering/`](forward-deployed-engineering/) | First edition, October 2026 |
