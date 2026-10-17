@@ -1,0 +1,5 @@
+id,customer,reported_by,date,problem,workaround,severity,arr_affected,tags
+FR-011,Litware,Tom Reid,2026-09-08,Login through Okta single sign-on please,Shared credentials in a password manager,high,280000,sso
+FR-012,Fabrikam,Ana Costa,2026-09-12,Download the evaluation results as a spreadsheet,Screenshots in the weekly update,low,350000,export
+FR-013,Contoso Insurance,Tom Reid,2026-09-20,Keep a record of every AI answer for complaints handling,Database trigger copies answers to a table,medium,600000,audit-log
+FR-014,Northwind Traders,Lee Wong,2026-09-29,Search shows SharePoint documents from folders the user cannot open,Turned off the connector for HR sites,critical,150000,

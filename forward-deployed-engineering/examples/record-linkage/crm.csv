@@ -1,0 +1,10 @@
+id,name,postcode,email,phone
+C1,Contoso Ltd,SW1A 1AA,accounts@contoso.example,020 7946 0001
+C2,"Fabrikam, Inc.",EC1A 1BB,ap@fabrikam.example,+44 20 7946 0002
+C3,Northwind Traders Limited,M1 1AE,finance@northwind.example,0161 496 0003
+C4,Tailspin Toys,B1 1AA,hello@tailspintoys.example,0121 496 0004
+C5,Wide World Importers PLC,LS1 1UR,ap@wideworldimporters.example,0113 496 0005
+C6,Woodgrove Bank,G1 1XQ,procurement@woodgrovebank.example,0141 496 0006
+C7,Adventure Works Cycles,BS1 4DJ,ar@adventure-works.example,0117 496 0007
+C8,Litware Inc,CB2 1TN,finance@litware.example,01223 496 008
+C9,Contoso Pharmaceuticals,CB2 1TN,ap@contosopharma.example,01223 496 009
