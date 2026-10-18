@@ -1,0 +1,5 @@
+# Keep TLC artefacts and the tools jar out of git.
+tla2tools.jar
+states/
+*_TTrace_*.tla
+*_TTrace_*.bin
