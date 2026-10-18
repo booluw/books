@@ -194,7 +194,16 @@ Given a history, is it linearizable? Checking means searching for a valid order 
 - **Lowe's improvement** (2017) and the **Porcupine** checker (used for testing Raft implementations in MIT's 6.824/6.5840 course) add memoization of (set of linearized operations, object state) pairs, and partition histories by key, since linearizability is composable.
 - **Knossos** and **Elle** in Jepsen (Chapter 23): Knossos checks linearizability; Elle checks transactional isolation by building dependency graphs and finding cycles, which scales to very large histories.
 
-[`examples/linearizability-checker/`](../examples/linearizability-checker/) implements a memoizing Wing–Gong checker for a register, including textbook histories that are sequentially consistent but not linearizable, and a simulated replicated register with a stale-follower-read bug that the checker catches.
+[`examples/linearizability-checker/`](../examples/linearizability-checker/) implements a memoizing Wing–Gong checker for a register, including textbook histories that are sequentially consistent but not linearizable, and a simulated replicated register with a stale-follower-read bug that the checker catches. In 200 simulated histories (three clients, eight operations each), reads served by the leader were linearizable every time; reads served by followers produced 119 non-linearizable histories, 50 of which weren't even sequentially consistent. The checker shrinks a failing 24-operation history to four operations that show the problem at a glance:
+
+```
+C1:W(4)   |-------------|
+C1:W(5)                        |---------------|
+C0:R()->5                        |----------|
+C2:R()->4                                     |----------|
+```
+
+C0 has already read 5, so C2's later read of 4 is the "new value, then old value" inversion of §8.3.
 
 ## 8.11 Choosing a model
 

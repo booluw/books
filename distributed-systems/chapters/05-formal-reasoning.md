@@ -160,6 +160,21 @@ The number of reachable states grows exponentially with the number of processes,
 
 [`examples/model-checker/`](../examples/model-checker/) is a complete explicit-state model checker in about a hundred lines of Python. It includes models of a racy check-then-set lock (it finds the race), Peterson's mutual-exclusion algorithm (it verifies it), a lease-based lock without fencing tokens (it finds a stale write by a paused client) and with them (verified), and two-phase commit.
 
+Running `python3 models.py` in that folder checks every model. The naive lock fails in 16 states, and breadth-first search returns the shortest interleaving that breaks it:
+
+```
+naive-mutex(2): FAIL: invariant 'MutualExclusion' violated; 16 states, 26 transitions, depth 6
+   0. Init                               pc=['idle', 'idle'] locked=False
+   1. P0: wants lock                     pc=['check', 'idle'] locked=False
+   2. P0: sees lock free                 pc=['set', 'idle'] locked=False
+   3. P1: wants lock                     pc=['set', 'check'] locked=False
+   4. P1: sees lock free                 pc=['set', 'set'] locked=False
+   5. P0: sets lock                      pc=['crit', 'set'] locked=True
+   6. P1: sets lock                      pc=['crit', 'crit'] locked=True
+```
+
+Peterson's algorithm passes (20 states). Swapping two of its lines, so a process sets `turn` before raising its flag, breaks it, and the checker finds a six-step counterexample: a reminder that in concurrent code, *order* is part of correctness. The lease without fencing fails in 154 states with an eight-step trace ending in storage accepting token 2's write and then token 1's; the fenced version passes all 166 reachable states. A deliberately broken two-phase commit that commits on a *majority* of yes votes fails atomicity in five steps.
+
 ## 5.6 TLA+
 
 **TLA+** is a specification language created by Leslie Lamport in the 1990s, based on the Temporal Logic of Actions. It describes systems exactly as in §5.2: variables, an initial predicate `Init`, a next-state relation `Next` (a disjunction of actions), and properties. Its main tool is **TLC**, an explicit-state model checker; there's also **Apalache**, a symbolic model checker using SMT solvers, and **TLAPS**, a proof system for machine-checked proofs.
