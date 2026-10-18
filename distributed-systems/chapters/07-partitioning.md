@@ -94,7 +94,15 @@ With one point per node, arcs vary wildly in size: the largest arc among N rando
 
 **Rendezvous hashing** (Thaler and Ravishankar, 1996), also called **highest random weight (HRW)** hashing, is a simpler alternative: for each key, compute a score hash(key, node) for every node, and assign the key to the highest-scoring node (or the top k, for k replicas). Adding a node moves exactly the keys for which the new node now scores highest, again an expected 1/(N + 1). It needs no ring or virtual nodes and balances well, at the cost of O(N) hash computations per lookup (fine for tens or hundreds of nodes, and the lookup result can be cached).
 
-[`examples/consistent-hashing/`](../examples/consistent-hashing/) measures key movement for mod-N, ring and rendezvous hashing, and load imbalance as the number of virtual nodes grows.
+[`examples/consistent-hashing/`](../examples/consistent-hashing/) measures key movement for mod-N, ring and rendezvous hashing, and load imbalance as the number of virtual nodes grows. Growing a cluster from 10 to 11 nodes with 20,000 keys (ideal movement 1/11 ≈ 9.1%):
+
+| Scheme | Keys moved |
+|---|---|
+| hash mod N | 90.8% |
+| Ring, 100 virtual nodes per node | 9.6% |
+| Rendezvous hashing | 9.3% |
+
+Load imbalance (busiest node's load ÷ average) on a 10-node ring falls from 2.32 with one point per node, to 1.51 with 10 virtual nodes, 1.12 with 100 and 1.05 with 1,000; rendezvous hashing achieves 1.06 with no virtual nodes at all.
 
 ## 7.5 Fixed partitions and dynamic splitting
 

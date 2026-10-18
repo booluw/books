@@ -170,6 +170,25 @@ Practical membership protocols combine gossip with failure detection:
 
 [`examples/gossip-membership/`](../examples/gossip-membership/) simulates push, pull and push-pull gossip with message loss and measures rounds to full dissemination as the cluster grows, plus a heartbeat failure detector showing the false-positive trade-off.
 
+What the simulation shows (mean rounds for every node to learn a rumour):
+
+| Nodes | Push | Pull | Push-pull |
+|---|---|---|---|
+| 16 | 7.2 | 6.2 | 4.2 |
+| 256 | 14.9 | 11.4 | 7.6 |
+| 1,024 | 18.3 | 14.2 | 9.2 |
+| 4,096 | 21.2 | 16.1 | 10.6 |
+
+Multiplying the cluster size by 256 adds only about six rounds to push-pull, and with 25% message loss push-pull at 1,024 nodes still finishes in about 12 rounds. The detector half shows the timeout trade-off in numbers. Heartbeats arrive every 100 ms and occasionally pause for 0.3–1.5 s:
+
+| Timeout | False suspicions per hour | Time to detect a real crash |
+|---|---|---|
+| 150 ms | 557 | 69 ms |
+| 500 ms | 69 | 419 ms |
+| 2,000 ms | 0 | 1,919 ms |
+
+A phi-accrual detector does no better than a well-chosen fixed timeout on one network. Its advantage is adaptation: a single threshold (φ = 12) kept false suspicions near zero as network jitter rose from 10 ms to 80 ms, while a fixed 250 ms timeout went from about 5 to 877 false suspicions per hour.
+
 ## 2.7 Designing for an unreliable network
 
 The practical consequences of this chapter, in order of importance:

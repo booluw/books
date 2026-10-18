@@ -138,7 +138,15 @@ With **n** replicas for a key:
 
 Intersection means that at least one replica in any read quorum has seen any write that completed with a write quorum. If versions are totally ordered (for example by a version number assigned by the writer), the reader can identify the latest one. Common choices: n = 3, w = 2, r = 2; or n = 5, w = 3, r = 3. With w = n and r = 1, reads are fast but a single slow replica blocks writes; with r = n and w = 1, the reverse.
 
-[`examples/quorum-store/`](../examples/quorum-store/) simulates a leaderless store and verifies the theorem by brute force, then shows, over many randomised runs, that stale reads occur when r + w ≤ n and don't (for completed writes) when r + w > n. [`examples/tla/QuorumIntersection.tla`](../examples/tla/) checks the same property with TLC.
+[`examples/quorum-store/`](../examples/quorum-store/) simulates a leaderless store and verifies the theorem by brute force, then shows, over many randomised runs, that stale reads occur when r + w ≤ n and don't (for completed writes) when r + w > n. With n = 3 and replicas crashing and recovering at random, the measured stale-read rates over 40,000 operations were:
+
+| | w = 1 | w = 2 | w = 3 |
+|---|---|---|---|
+| **r = 1** | 34.4% | 15.0% | 0% |
+| **r = 2** | 10.2% | 0% | 0% |
+| **r = 3** | 0% | 0% | 0% |
+
+Every cell with r + w > 3 is zero, as the theorem predicts. The cost appears elsewhere: with w = 3, 36.8% of writes failed because a replica was down, against 5.4% with w = 2. [`examples/tla/QuorumIntersection.tla`](../examples/tla/) checks the same property with TLC.
 
 ### What quorums do *not* guarantee
 

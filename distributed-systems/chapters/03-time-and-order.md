@@ -156,7 +156,7 @@ Compare vectors component-wise:
 
 The cost: each timestamp has n entries, which is fine for a handful of replicas but unwieldy for thousands of clients. Practical systems bound the size by tracking only replicas, not clients (**version vectors**, used to detect conflicting versions of a value in Dynamo-style stores, Chapter 6), or by using **dotted version vectors** (Preguiça and colleagues, 2010) to avoid false conflicts.
 
-[`examples/logical-clocks/`](../examples/logical-clocks/) implements Lamport and vector clocks over randomised message-passing runs, and checks both theorems against the true happened-before relation computed from the event graph.
+[`examples/logical-clocks/`](../examples/logical-clocks/) implements Lamport and vector clocks over randomised message-passing runs, and checks both theorems against the true happened-before relation computed from the event graph. In one seeded run with three processes, 56 of the 136 pairs of events are concurrent, and Lamport timestamps make 47 of those 56 *look* ordered (one has a smaller number than the other). Vector clocks classify all 136 pairs correctly. In the hybrid-logical-clock simulation with ±50 units of clock skew, raw physical timestamps put 4 of 14 message receipts no later than their sends (effects before causes); HLC timestamps get none wrong.
 
 ## 3.7 Hybrid logical clocks
 
